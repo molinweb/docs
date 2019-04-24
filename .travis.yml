@@ -9,4 +9,5 @@ install:
   - npm install -g vuepress
 script:
   - ./deploy.sh
+  -
 branch: master
