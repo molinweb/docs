@@ -434,3 +434,90 @@ yarn # 或者 npm i
 
 - 在`MarkDown`或者自定义组件中使用`ElementUI`
 
+## Travis CI 持续集成部署
+### 现有问题
+我们使用上述的`deploy.sh`部署到`git`后，`vuepress`是把我们项目打包后的静态资源文件`push`到`git`分支上。
+上传后的项目大概是这个样子：
+![项目预览](https://img.alicdn.com/imgextra/i4/1810749336/O1CN01jDWeGZ2IpwBpS9iyw_!!1810749336.png)
+![项目预览](https://img.alicdn.com/imgextra/i3/1810749336/O1CN01pfUCfZ2IpwBryunP6_!!1810749336.png)
+
+这么做就有一个明显的弊端。如果这个项目不是个人博客，而是需要多人维护的项目文档，那么其他人想要修改这个文档是没办法把这些html文件`clone`到本地进行修改的。
+
+我们想要的是，`git`上存放我们的项目，即`markdown`文件，我们可以随时修改这些`markdown`然后`push`到线上，我们或者其他成员的`github Pages`则会相应的显示编译好的html。
+
+### 引入
+[Travis CI](https://www.travis-ci.org/)正好符合我们的要求。
+
+它的作用就是可以监控到我们`git`资源库的每一次变更,在收到`push`请求后他会为我们提供一个`虚拟机`来帮助我们执行一些任务，比如我们文档的`build`以及发布。
+
+这样一来我们把修改好的`markdown`推到线上后，`travis`会帮我们自动执行`deploy.sh`里的脚本。我们就可以专注于文档本身的内容。
+### 准备
+#### 重命名
+使用`xxx.github.io`作为`github Pages`首页是无法选择分支的，`git`会自动将``xxx.github.io``下的`master`分支当做静态资源。而我们需要的是`master`分支存放我们的项目即`markdown`，另外的分支来存放编译好的`html`
+- 更改我们的资源库名为`docs`，新建分支`gh pages`，然后在设置中将`github Pages`分支切换到`gh pages`
+![](https://img.alicdn.com/imgextra/i4/1810749336/O1CN013sp0nk2IpwBtmk7bM_!!1810749336.png)
+#### 设置`base`
+- 由于文档地址已经更换，这里需要将`config.js`里的`base`设置为`/docs/`
+```javascript
+module.exports = {
+  base:'/docs/'
+}
+```
+#### 配置 `.travis.yml`
+然后在项目根目录新建文件 `.travis.yml`， 这个文件内容根据你的项目而定，比如我们的项目可以是这样的
+```YAML
+language: node_js
+sudo: required
+node_js:
+  - "lts/*"
+cache:
+  directories:
+    - node_modules
+script:
+  - ./deploy.sh
+branch: master
+```
+#### 修改`deploy.sh`
+- 集成 travis 还需要我们修改 deploy.sh
+```bash
+#!/usr/bin/env sh
+
+# 确保脚本抛出遇到的错误
+set -e
+
+# 生成静态文件
+npm run docs:build
+
+# 进入生成的文件夹
+cd docs/.vuepress/dist
+
+# 如果是发布到自定义域名
+# echo 'www.example.com' > CNAME
+
+git init
+git add -A
+git commit -m 'deploy'
+
+# 如果发布到 https://<USERNAME>.github.io
+# git push -f git@github.com:7revor/7revor.github.io.git master
+
+# 如果发布到 https://<USERNAME>.github.io/<REPO>
+# git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
+
+# 如果使用 travis 持续集成
+git push -f https://${access_token}@github.com/7revor/docs.git master:gh-pages
+
+cd -
+
+```
+### Travis CI配置
+#### 监听资源库
+- 使用`github`账号登录[Travis CI](https://www.travis-ci.org/)，选择需要自动部署的资源库
+![](https://img.alicdn.com/imgextra/i1/1810749336/O1CN01PoOK332IpwBrnBveK_!!1810749336.png)
+#### Access token
+- 首先在`github`的 `setting -> developer setting -> personal access token`一栏点击`generate new token`， 这下面的选项全选，然后就会生成一个`token`，复制这个`token`。
+
+- 进入`travis`后台，在环境变量`Environment Variables`里设置键值对
+![](https://img.alicdn.com/imgextra/i1/1810749336/O1CN01rU46MB2IpwBrwLUgW_!!1810749336.png)
+### 测试
+将我们的项目`push`到线上，观察控制台
