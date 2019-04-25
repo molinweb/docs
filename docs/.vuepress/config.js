@@ -27,7 +27,8 @@ module.exports = {
         ['titleWrapper','简单实用的高阶组件'],
         ['closeKeyBoard','QAP自动关闭键盘'],
         ['heightProvider','动态组件自适应键盘高度'],
-        ['listView','ListView长列表封装']
+        ['listView','ListView长列表封装'],
+        ['cardHoc','卡片弹窗HOC']
       ],
       '/Tutorial/':[
         ['','VuePress']
