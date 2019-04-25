@@ -1,7 +1,6 @@
 module.exports = {
 	title: '7revor',
 	description: '可爱又迷人的反派角色',
-  base:'/docs/',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]
   ],
