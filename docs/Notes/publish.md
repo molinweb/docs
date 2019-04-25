@@ -266,12 +266,12 @@ async upload (photos, cat_id) {
 
 > 类目选选择器写成了一个弹窗式的组件，支持历史记录缓存，模糊查询。
 
-- 这里使用了`ReactNatice`的`Animated`类，整理了一下大体的使用方法，附：[参考链接](https://7revor.github.io//React/Animated.html)
+- 这里使用了`ReactNatice`的`Animated`类，整理了一下大体的使用方法，附：[参考链接](/React/Animated.html)
 
 - 由于安卓和IOS的差异，呼起键盘时会出现遮挡输入框的问题，这里对此类问题给出一个通用
 <a href='#heightprovider'>处理方法</a>
 
-- [QAP自动关闭键盘](http://7revor.github.io/React/closeKeyBoard.html)
+- [QAP自动关闭键盘](/React/closeKeyBoard.html)
 
 - 类目选择器的查询功能由于淘宝没有提供相应的接口，我们将类目数据存入自己的库中进行查询，和**王炜**对接。
 ---
