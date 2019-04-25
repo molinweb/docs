@@ -478,7 +478,7 @@ script:
 branch: master
 ```
 #### 修改`deploy.sh`
-- 集成 travis 还需要我们修改 deploy.sh
+- 集成 `travis` 还需要我们修改 `deploy.sh`
 ```bash
 #!/usr/bin/env sh
 
@@ -521,3 +521,18 @@ cd -
 ![](https://img.alicdn.com/imgextra/i1/1810749336/O1CN01rU46MB2IpwBrwLUgW_!!1810749336.png)
 ### 测试
 将我们的项目`push`到线上，观察控制台
+
+- `travis`已经监听到我们资源库的变化，开始运行虚拟机
+![](https://img.alicdn.com/imgextra/i2/1810749336/O1CN01Zz8n082IpwBoLF9Nh_!!1810749336.png)
+- 执行`deploy.sh`中的命令
+![](https://img.alicdn.com/imgextra/i1/1810749336/O1CN01tZBGOL2IpwBjo9CQI_!!1810749336.png)
+- 任务执行成功，将`build`后的文件推送到`gh pages`分支
+![](https://img.alicdn.com/imgextra/i2/1810749336/O1CN013kXw2X2IpwBoLPgwE_!!1810749336.png)
+- 面板显示为`passed`
+![](https://img.alicdn.com/imgextra/i4/1810749336/O1CN01nihDao2IpwBrob8gb_!!1810749336.png)
+
+打开`xxx.github.io/docs/`已经可以正常访问了。
+
+这样我们就实现了`master`分支存放`markdown`，`gh pages`存放编译后的静态文件。
+
+如果有新成员加入，直接将`master`分支`clone`到本地，修改后推送到远程仓库,`travis`就会帮我们自动部署。
