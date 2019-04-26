@@ -104,7 +104,7 @@ export default function cardHoc(WrappedComponent) {
       }
 
       componentDidMount() {
-        // 出场动画以及是否显示loading
+        // 加载动画以及是否显示loading
         option.loading&&QN.hideLoading();
         doTransition(this.refs.wrap, { backgroundColor: 'rgba(0,0,0,0.4' });
         doTransition(this.refs.body, { transform: `translateY(${-Card.bottom})` });
@@ -113,7 +113,7 @@ export default function cardHoc(WrappedComponent) {
       constructor(props) {
         super(props);
         Card.instance = this;
-        const keyBoardHeight = register(Card);// 参见之前的文章，heightrovider
+        const keyBoardHeight = register(Card);// 参见之前的文章，heightProvider
         let height = option.height||500; // 默认高度500
         // 如果键盘高度加内容高度超出屏幕范围，固定为最大高度
         height = height+keyBoardHeight>heightMax?heightMax-keyBoardHeight:height;

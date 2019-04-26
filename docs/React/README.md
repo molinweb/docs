@@ -8,6 +8,6 @@
 - #### [QAP自动关闭键盘](/React/closeKeyBoard.html)
 - #### [动态组件自适应键盘高度](/React/heightProvider.html)
 - #### [PyListAuto长列表](/React/listView.html)
-
+- #### [卡片弹窗HOC](/React/cardHoc.html)
 
 
