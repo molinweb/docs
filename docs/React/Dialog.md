@@ -1,16 +1,11 @@
----
-title: React组件Dialog的封装
-date: 2019-03-19 13:48:11
-categories: React
----
 ## 介绍
 最近在进行一个基于Weex的手机端项目，用了阿里的Rax组件，由于资源太少，市面上常见的组件都无法方便快捷的实现弹窗，所以自己从零开始研究了一个。
 
+  一开始为了满足业务需要，简单的写了一个Dialog，但是这个Dialog的取消的确定事件都要以参数的性质传入这就导致使用不便，由ElementUI受到启发,于是想基`Promise`实现一个方便好用的组件
  
-## 启发
-  一开始为了满足业务需要，简单的写了一个Dialog，但是这个Dialog的取消的确定事件都要以参数的性质传入这就导致使用不便，由ElementUI受到启发,于是想基于Promise实现一个方便好用的组件
- 
- 由于刚开始学习，水平比较菜，一些实现方式也是我自己琢磨出来的，如果有逻辑错误或者可以优化的地方欢迎提点指正。
+ 由于刚刚开始学习，一些实现方式也是我自己琢磨出来的，如果有逻辑错误或者可以优化的地方欢迎提点指正。
+
+## ElementUI中的弹窗组件
 
 ```javascript
 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -28,7 +23,10 @@ this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
             message: '已取消删除'
           }); 
 ```
-原理本质是调用静态方法，然后在方法中控制窗口的显示，该方法返回一个Promise对象，大致思路为
+
+#### 分析
+原理是调用静态方法，然后在方法中控制窗口的显示，该方法返回一个Promise对象，大致思路为
+
 ```javascript
 let myPromise;
  open=()=>{
@@ -54,7 +52,7 @@ cancel=()=>{
                   //此处处理取消逻辑
                 })
 ```
-一开始我在项目中采取的方式是在每一个需要调用dialog组件的地方，手动把dialog插入到body的最底部，like this
+开始在项目中采取的方式是在每一个需要调用dialog组件的地方，手动把dialog插入到body的最底部
 ```javascript
 import MyDialog from "../../components/dialog/MyDialog";
 
@@ -71,7 +69,10 @@ return
     </View>
 }
 ```
-这样做毋庸置疑，耦合性将会非常高，在每一个需要调用的页面都要引入这个组件，看了看React的文档，研究出来一种目前我认为还可以的方式，那就是使用ReactDOM的 render方法来自动控制组件的渲染,以下是完整代码
+毋庸置疑，上述方式耦合性将会非常高，在每一个需要调用的页面都要引入这个组件，看了看React的文档，研究出来一种目前我认为还可以的方式，那就是使用ReactDOM的 render方法来自动控制组件的渲染。
+
+## 实现
+
 ```javascript
 import {createElement, Component, render, PureComponent, findDOMNode, unmountComponentAtNode} from 'rax';
 import {View, Text, Dialog, Touchable} from 'nuke';
