@@ -1,12 +1,10 @@
----
-title: 顶部导航组件TabBar
-date: 2019-03-19 14:03:30
-categories: React
----
 ## 介绍
 适用于千牛移动端侧导航栏组件
 ## 效果图
-![IMG_3827.PNG](https://upload-images.jianshu.io/upload_images/15088677-8d1352315a045b49.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<div align=center>
+<img src="https://img.alicdn.com/imgextra/i4/1810749336/O1CN01xcmrPc2IpwC875kY2_!!1810749336.jpg" width = "300" />
+<p>组件弹出</p>
+</div>
 ## 调用示例
 
 ### `View`
