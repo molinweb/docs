@@ -3,7 +3,7 @@
 <!-- more -->
 ## 主界面
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i3/1810749336/O1CN019HFQa52IpwBhC1kZI_!!1810749336.png?/w/240" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/main.png" alt="Sample"  width="300">
     <p align="center">
         <em>主界面</em>
     </p>
@@ -164,13 +164,13 @@
 ---
 ## 宝贝主图
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i2/1810749336/O1CN01u2KDw62IpwB6Byom7_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/main2.png" alt="Sample"  width="300">
     <p align="center">
         <em>宝贝主图</em>
     </p>
 </p>
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i4/1810749336/O1CN01iBssCP2IpwBeLkRKI_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/main3.png" alt="Sample"  width="300">
     <p align="center">
         <em>宝贝主图2</em>
     </p>
@@ -246,19 +246,19 @@ async upload (photos, cat_id) {
 
 ## 类目选择器`category`
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i1/1810749336/O1CN01aom2jl2IpwBiw3MXZ_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/category.png" alt="Sample"  width="300">
     <p align="center">
         <em>级联选择</em>
     </p>
 </p>
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i4/1810749336/O1CN01KOTpWd2IpwBiKU7x4_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/category2.png" alt="Sample"  width="300">
     <p align="center">
         <em>最近使用</em>
     </p>
 </p>
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i3/1810749336/O1CN01vogskH2IpwBiw2UUh_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/category3.png" alt="Sample"  width="300">
     <p align="center">
         <em>搜索</em>
     </p>
@@ -279,7 +279,7 @@ async upload (photos, cat_id) {
 ## 宝贝描述
 
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i1/1810749336/O1CN01XpvprS2IpwBgCP7p0_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/desc.png" alt="Sample"  width="300">
     <p align="center">
         <em>宝贝描述</em>
     </p>
@@ -319,26 +319,26 @@ onInput={(e)=>{
 ## [宝贝属性](/Notes/goodsProps.html)
 
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i4/1810749336/O1CN01T9pdAP2IpwB5LdRom_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/props.png" alt="Sample"  width="300">
     <p align="center">
         <em>宝贝属性</em>
     </p>
 </p>
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i3/1810749336/O1CN013IGjgV2IpwB6VBA9c_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/props2.png" alt="Sample"  width="300">
     <p align="center">
         <em>枚举属性</em>
     </p>
 </p>
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i2/1810749336/O1CN01MEJUfu2IpwB3wYHWv_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/props3.png" alt="Sample"  width="300">
     <p align="center">
         <em>普通度量衡</em>
     </p>
 </p>
 
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i3/1810749336/O1CN01HYluzx2IpwB7vdFzd_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/props4.png" alt="Sample"  width="300">
     <p align="center">
         <em>时间度量衡</em>
     </p>
@@ -357,19 +357,19 @@ onInput={(e)=>{
 ## 宝贝规格（销售属性）
 
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i2/1810749336/O1CN01gFobSW2IpwB6XeqIj_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/sku.png" alt="Sample"  width="300">
     <p align="center">
         <em>sku</em>
     </p>
 </p>
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i1/1810749336/O1CN01eGAb7E2IpwAyjcrSE_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/sku2.png" alt="Sample"  width="300">
     <p align="center">
         <em>普通度量衡</em>
     </p>
 </p>
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i4/1810749336/O1CN01AHL3T92IpwB7wRXXs_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/sku3.png" alt="Sample"  width="300">
     <p align="center">
         <em>备注</em>
     </p>
@@ -394,7 +394,7 @@ onInput={(e)=>{
 ## 运费模板
 
 <p align="center">
-    <img src="https://img.alicdn.com/imgextra/i1/1810749336/O1CN01Aq605h2IpwAylJ7UV_!!1810749336.png" alt="Sample"  width="300">
+    <img src="/docs/img/itemAdd/postFee.png" alt="Sample"  width="300">
     <p align="center">
         <em>运费模板</em>
     </p>

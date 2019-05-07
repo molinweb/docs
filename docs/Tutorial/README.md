@@ -438,8 +438,8 @@ yarn # 或者 npm i
 ### 现有问题
 我们使用上述的`deploy.sh`部署到`git`后，`vuepress`是把我们项目打包后的静态资源文件`push`到`git`分支上。
 上传后的项目大概是这个样子：
-![项目预览](https://img.alicdn.com/imgextra/i4/1810749336/O1CN01jDWeGZ2IpwBpS9iyw_!!1810749336.png)
-![项目预览](https://img.alicdn.com/imgextra/i3/1810749336/O1CN01pfUCfZ2IpwBryunP6_!!1810749336.png)
+![项目预览](/docs/img/vuepress/vuepress1.png)
+![项目预览](/docs/img/vuepress/vuepress2.png)
 
 这么做就有一个明显的弊端。如果这个项目不是个人博客，而是需要多人维护的项目文档，那么其他人想要修改这个文档是没办法把这些html文件`clone`到本地进行修改的。
 
@@ -455,7 +455,7 @@ yarn # 或者 npm i
 #### 重命名
 使用`xxx.github.io`作为`github Pages`首页是无法选择分支的，`git`会自动将``xxx.github.io``下的`master`分支当做静态资源。而我们需要的是`master`分支存放我们的项目即`markdown`，另外的分支来存放编译好的`html`
 - 更改我们的资源库名为`docs`，新建分支`gh pages`，然后在设置中将`github Pages`分支切换到`gh pages`
-![](https://img.alicdn.com/imgextra/i4/1810749336/O1CN013sp0nk2IpwBtmk7bM_!!1810749336.png)
+![](/docs/img/vuepress/vuepress3.png)
 #### 设置`base`
 - 由于文档地址已经更换，这里需要将`config.js`里的`base`设置为`/docs/`
 ```javascript
@@ -513,23 +513,23 @@ cd -
 ### Travis CI配置
 #### 监听资源库
 - 使用`github`账号登录[Travis CI](https://www.travis-ci.org/)，选择需要自动部署的资源库
-![](https://img.alicdn.com/imgextra/i1/1810749336/O1CN01PoOK332IpwBrnBveK_!!1810749336.png)
+![](/docs/img/vuepress/vuepress4.png)
 #### Access token
 - 首先在`github`的 `setting -> developer setting -> personal access token`一栏点击`generate new token`， 这下面的选项全选，然后就会生成一个`token`，复制这个`token`。
 
 - 进入`travis`后台，在环境变量`Environment Variables`里设置键值对
-![](https://img.alicdn.com/imgextra/i1/1810749336/O1CN01rU46MB2IpwBrwLUgW_!!1810749336.png)
+![](/docs/img/vuepress/vuepress5.png)
 ### 测试
 将我们的项目`push`到线上，观察控制台
 
 - `travis`已经监听到我们资源库的变化，开始运行虚拟机
-![](https://img.alicdn.com/imgextra/i2/1810749336/O1CN01Zz8n082IpwBoLF9Nh_!!1810749336.png)
+![](/docs/img/vuepress/vuepress6.png)
 - 执行`deploy.sh`中的命令
-![](https://img.alicdn.com/imgextra/i1/1810749336/O1CN01tZBGOL2IpwBjo9CQI_!!1810749336.png)
+![](/docs/img/vuepress/vuepress7.png)
 - 任务执行成功，将`build`后的文件推送到`gh pages`分支
-![](https://img.alicdn.com/imgextra/i2/1810749336/O1CN013kXw2X2IpwBoLPgwE_!!1810749336.png)
+![](/docs/img/vuepress/vuepress8.png)
 - 面板显示为`passed`
-![](https://img.alicdn.com/imgextra/i4/1810749336/O1CN01nihDao2IpwBrob8gb_!!1810749336.png)
+![](/docs/img/vuepress/vuepress9.png)
 
 打开`xxx.github.io/docs/`已经可以正常访问了。
 

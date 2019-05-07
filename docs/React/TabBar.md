@@ -2,7 +2,7 @@
 适用于千牛移动端侧导航栏组件
 ## 效果图
 <div align=center>
-<img src="https://img.alicdn.com/imgextra/i4/1810749336/O1CN01xcmrPc2IpwC875kY2_!!1810749336.jpg" width = "300" />
+<img src="/docs/img/tabbar.jpg" width = "300" />
 <p>组件弹出</p>
 </div>
 ## 调用示例

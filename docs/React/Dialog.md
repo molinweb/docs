@@ -1,5 +1,5 @@
 <div align=center>
-<img src="https://img.alicdn.com/imgextra/i3/1810749336/O1CN01n06AI52IpwC9Q7xf5_!!1810749336.jpg" width = "300" />
+<img src="/docs/img/dialog.jpg" width = "300" />
 <p>组件弹出</p>
 </div>
 
