@@ -94,5 +94,6 @@ typings/
 # IntelliJ project files
 .idea
 *.iml
+docs/.vuepress/dist
 out
 gen

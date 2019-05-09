@@ -14,5 +14,6 @@ script:
 branch: master
 addons:
   ssh_known_hosts: 62.234.211.24
-after_success:
-- scp -o StrictHostKeyChecking=no -r docs/.vuepress/dist/ ubuntu@www.7revor.com:/home/ubuntu/nginx-server/docs
+
+# after_success:
+# - scp -o StrictHostKeyChecking=no -r docs/.vuepress/dist/ ubuntu@www.7revor.com:/home/ubuntu/nginx-server/docs
