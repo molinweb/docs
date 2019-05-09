@@ -25,6 +25,8 @@ git commit -m 'deploy'
 # 如果使用 travis 持续集成
 git push -f https://${GITHUB_TOKEN}@github.com/7revor/docs.git master:gh-pages
 
+# 上传到服务器
+sshpass -p ${SSH_PASSWORD} scp -r ${SSH_USER}@w7revor.com:/home/ubuntu/nginx-server/docs
 cd -
 
 
