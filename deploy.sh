@@ -26,7 +26,7 @@ git commit -m 'deploy'
 git push -f https://${GITHUB_TOKEN}@github.com/7revor/docs.git master:gh-pages
 
 # 上传到服务器
-sshpass -p ${SSH_PASSWORD} scp -r ${SSH_USER}@w7revor.com:/home/ubuntu/nginx-server/docs
+sshpass -p ${SSH_PASSWORD} scp -o StrictHostKeyChecking=no -r ${SSH_USER}@w7revor.com:/home/ubuntu/nginx-server/docs
 cd -
 
 
