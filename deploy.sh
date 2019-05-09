@@ -1,5 +1,3 @@
-# 安装sshpass
-sudo apt-get install sshpass
 
 #!/usr/bin/env sh
 
