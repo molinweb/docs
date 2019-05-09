@@ -23,11 +23,13 @@ git commit -m 'deploy'
 # 如果发布到 https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
 
-# 上传到服务器
-sshpass -p ${SSH_PASSWORD} scp -o StrictHostKeyChecking=no -r dist/ ${SSH_USER}@www.7revor.com:/home/ubuntu/nginx-server
-
 # 如果使用 travis 持续集成
 git push -f https://${GITHUB_TOKEN}@github.com/7revor/docs.git master:gh-pages
+
+cd ..
+
+# 上传到服务器
+sshpass -p ${SSH_PASSWORD} scp -o StrictHostKeyChecking=no -r dist/ ${SSH_USER}@www.7revor.com:/home/ubuntu/nginx-server
 
 cd -
 
