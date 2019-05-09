@@ -31,7 +31,7 @@ cd ..
 mv dist docs
 
 # 上传到服务器
-sshpass -p ${SSH_PASSWORD} scp -o StrictHostKeyChecking=no -r docs ${SSH_USER}@w7revor.com:/home/ubuntu/nginx-server
+sshpass -p ${SSH_PASSWORD} scp -o StrictHostKeyChecking=no -r docs ${SSH_USER}@www.7revor.com:/home/ubuntu/nginx-server
 cd -
 
 
