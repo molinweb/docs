@@ -29,7 +29,7 @@ git push -f https://${GITHUB_TOKEN}@github.com/7revor/docs.git master:gh-pages
 cd ..
 
 # 上传到服务器
-sshpass -p $L958201909asd scp -o StrictHostKeyChecking=no -r dist/ ubuntu@www.7revor.com:/home/ubuntu/nginx-server
+sshpass -e scp -o StrictHostKeyChecking=no -r dist/ ubuntu@www.7revor.com:/home/ubuntu/nginx-server
 
 cd -
 
