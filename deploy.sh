@@ -26,9 +26,9 @@ git commit -m 'deploy'
 # 如果使用 travis 持续集成
 # git push -f https://${GITHUB_TOKEN}@github.com/7revor/docs.git master:gh-pages
 
-cd ..
-
-scp -o StrictHostKeyChecking=no -r dist/ ubuntu@www.7revor.com:/home/ubuntu/nginx-server/docs
+# 发布到服务器
+# cd ..
+# scp -o StrictHostKeyChecking=no -r dist/ ubuntu@www.7revor.com:/home/ubuntu/nginx-server/docs
 
 cd -
 
