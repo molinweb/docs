@@ -27,9 +27,8 @@ git commit -m 'deploy'
 git push -f https://${GITHUB_TOKEN}@github.com/7revor/docs.git master:gh-pages
 
 # 发布到服务器
-# cd ..
-# scp -o StrictHostKeyChecking=no -r dist/ ubuntu@www.7revor.com:/home/ubuntu/nginx-server/docs
-
+cd ..
+scp -o StrictHostKeyChecking=no -r dist/ ubuntu@www.7revor.com:/home/ubuntu/nginx-server/docs
 cd -
 
 
