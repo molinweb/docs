@@ -536,3 +536,118 @@ cd -
 这样我们就实现了`master`分支存放`markdown`，`gh pages`存放编译后的静态文件。
 
 如果有新成员加入，直接将`master`分支`clone`到本地，修改后推送到远程仓库,`travis`就会帮我们自动部署。
+
+## 发布到服务器
+我们的需求不止要发布到`github Pages`，有时也需要发布到自己的服务器。
+
+### SSH免密登录
+首先要确保自己可以通过ssh命令免密登录自己的服务器，这就需要先生成密钥对
+```bash
+ssh-keygen # 生成密钥对
+```
+输入上面的指令以后一路回车即可，你会发现在用户根目录下多了`.ssh`目录，进去看一下`cd ~/.ssh`，里面有这3个文件
+![](/docs/img/vuepress/pubkey.png)
+把`id_rsa.pub`里的内容，手动复制到服务器的`~/.ssh/authorized_keys`(如没有可自行创建)中去即可
+
+::: tip 提示
+还有一种方法是使用`ssh-copy-id root@IP`命令，Mac用户可能需要用`brew`安装一下`ssh-copy-id`，`ubuntu`用户应该是自带的这个命令，实现的效果与上面手动的一样
+:::
+登录服务器的指令如下，如果不需要密码便进入则表示成功
+```bash
+ssh ${username}@${服务器IP}
+```
+![](/docs/img/vuepress/login.png)
+### 加密
+我们要部署到远程服务器，那么势必需要让 Travis 登录到远程服务，那么登录密码怎么处理才能保证安全？这是首先要解决的问题，明文肯定是不行的。
+#### Travis命令行工具
+使用`Travis命令行工具`将`id_rsa.pub`加密，同时将环境变量传至`Travis`
+- 首先通过 `Ruby` 的 `gem` 安装 `travis`
+```bash
+gem install travis
+```
+重试了几次发现敲完这段`shell`如同石沉大海一般，就算开了代理还是纹丝不动，没办法只能换镜像了。
+```bash
+gem update --system
+gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
+```
+好了，现在可以愉快的安装 `travis` 了
+```bash
+sudo gem install travis
+```
+- 接下来在命令行中登录 Travis
+```bash
+travis login
+
+We need your GitHub login to identify you.
+This information will not be sent to Travis CI, only to api.github.com.
+The password will not be displayed.
+
+Try running with --github-token or --auto if you don't want to enter your password anyway.
+
+Username: xxx@xxx.xxx
+Password for xxx@xxx.xxx: ***
+Successfully logged in as demo!
+```
+会要求你输入 GitHub 的账号密码，这个是走 GitHub 的服务，所以不用担心密码泄露。
+
+- 将目录切换到项目根目录下，执行命令
+```bash
+travis encrypt-file ~/.ssh/id_rsa --add
+```
+这时在travis的环境变量中会多出两个
+![](/docs/img/vuepress/en.png)
+
+去看一下当前目录下的 .travis.yml，会多出几行
+```yaml
+before_install:
+  - openssl aes-256-cbc -K $encrypted_d89376f3278d_key -iv $encrypted_d89376f3278d_iv
+  - in id_rsa.enc -out ~\/.ssh/id_rsa -d
+```
+::: tip 提示
+默认生成的命令可能会在/前面带转义符\，我们不需要这些转义符，手动删掉所有的转义符，否则可能在后面引发莫名的错误
+:::
+为保证权限正常，多加一行设置权限的 shell
+```yaml
+before_install:
+  - openssl aes-256-cbc -K $encrypted_6dc88f1910e2_key -iv $encrypted_6dc88f1910e2_iv
+  -in id_rsa.enc -out ~/.ssh/id_rsa -d
+  - chmod 600 ~/.ssh/id_rsa
+```
+还有一点可能会用上，因为 travis 第一次登录远程服务器会出现 SSH 主机验证，这边会有一个主机信任问题。官方给出的方案是添加 addons 配置：
+```yaml
+addons:
+  ssh_known_hosts: your-ip
+```
+### 执行部署脚本
+既然已经可以免密登录服务器了，那么写一个部署脚本，在登录时执行该脚本就可以了
+在 `.travis.yml` 配置文件中写下这么两行：
+```yaml
+after_success:
+  - scp -o StrictHostKeyChecking=no -r docs/.vuepress/dist/* <USER_NAME>@<HOST_IP>:/home/ubuntu/nginx-server/docs
+```
+完整的`.travis.yml`为
+```yaml
+language: node_js
+sudo: required
+node_js:
+- lts/*
+before_install:
+ - openssl aes-256-cbc -K $encrypted_6dc88f1910e2_key -iv $encrypted_6dc88f1910e2_iv
+ -in id_rsa.enc -out ~/.ssh/id_rsa -d
+ - chmod 600 ~/.ssh/id_rsa
+addons:
+  ssh_known_hosts: your-ip
+cache:
+  directories:
+  - node_modules
+script:
+- "./deploy.sh"
+branch: master
+
+after_success:
+- scp -o StrictHostKeyChecking=no -r docs/.vuepress/dist/* <USER_NAME>@<HOST_IP>:/home/ubuntu/nginx-server/docs
+
+```
+### 部署测试
+提交代码到远程仓库，在Travis查看log，显示成功上传
+![](/docs/img/vuepress/success.png)
