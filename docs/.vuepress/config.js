@@ -23,8 +23,8 @@ module.exports = {
       text: 'Documents',
       link: '/Notes/'
     }, {
-      text: 'VuePress',
-      link: '/Tutorial/'
+      text: 'Learning',
+      link: '/Learning/'
     }, ],
     displayAllHeaders: false, //显示所有页面的标题链接
     sidebarDepth: 2,
@@ -40,8 +40,8 @@ module.exports = {
         ['listView', 'ListView长列表封装'],
         ['cardHoc', '卡片弹窗HOC']
       ],
-      '/Tutorial/': [
-        ['', 'VuePress']
+      '/Learning/': [
+        ['vuepress', 'VuePress教程']
       ],
       '/Notes/': [
         ['publish', '发布宝贝'],
