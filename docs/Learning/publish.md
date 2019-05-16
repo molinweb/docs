@@ -66,7 +66,7 @@ subject.notify();
  订阅者把自己想订阅的**消息**以及**处理程序**注册到调度中心，当发布者发布消息到调度中心，由调度中心统一调度订阅者注册到调度中心的处理程序。
  
  <div align=center>
- <img src="/docs/img/observer/publish.jpg" width = "600" />
+ <img src="/docs/img/observer/event.jpg" width = "900" />
  </div>
  
 ### 简单实现
