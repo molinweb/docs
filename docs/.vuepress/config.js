@@ -41,7 +41,9 @@ module.exports = {
         ['cardHoc', '卡片弹窗HOC']
       ],
       '/Learning/': [
-        ['vuepress', 'VuePress教程']
+        ['vuepress', 'VuePress教程'],
+        ['publish','观察者模式&&发布-订阅模式'],
+        ['bind','双向数据绑定']
       ],
       '/Notes/': [
         ['publish', '发布宝贝'],
