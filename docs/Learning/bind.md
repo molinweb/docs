@@ -394,7 +394,7 @@ Object.keys(value).forEach(key => this.convert(key, value[key]));
 ## Proxy 实现的双向绑定
 `Proxy` 在 `ES2015` 规范中被正式发布，它在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写，我们可以这样认为，`Proxy`是`Object.defineProperty`的全方位加强版。
 
-关于 Proxy 的用法可以移步阮一峰的 [ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/proxy)
+关于 Proxy 的用法可以移步阮一峰老师的 [ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/proxy)
 
 ### Proxy 可以直接监听对象而非属性
 我们还是以上文中用 `Object.defineProperty` 实现的极简版双向绑定为例，用` Proxy `进行改写。
