@@ -21,14 +21,23 @@ import {Input} from 'nuke'
 class MyPage extends Component{
   constructor(props){
   super(props)
-  //对input的原型进行修改，让所有的input实例获得焦点时都触发此方法
-  Input.prototype.focusHandler=function(element){
-    //e中的currentTarget为当前获取焦点的组件实例，也就是通过this.refs.textInput获取到的dom
-  Input.currentTarget = element.currentTarget//为Input类添加静态属性，即当前被激活的Input实例
+  //对input的原型进行代理，让所有的input实例获得焦点时都触发此方法
+  Input.prototype.focusHandler = new Proxy(Input.prototype.focusHandler, {
+    apply (target, ctx, args) { 
+      Input.currentTarget = ctx; //为Input类添加缓存，即当前被激活的Input实例
+        return Reflect.apply(target, ctx, args);
+      }
+  })
   }
 }
 }
 ```
+
+`apply` 方法可以接受三个参数
+- `target` 目标对象
+- `ctx` 目标对象的上下文对象 `this`
+- `args` 目标对象的参数数组
+
 这样一来，我们在保存方法中就可以直接
 ```javascript
   Input.currentTarget&&Input.currentTarget.blur()
