@@ -68,13 +68,13 @@ yarn # 或者  npm i
 
 ### 运行
 ```bash
-yarn docs:dev # 或者：npm run docs:dev
+yarn docs:dev # 或者：npm run docs:dev # 全局安装可直接执行 vuepress dev
 ```
 ### 编译
 要生成静态的 HTML 文件，运行
 
 ```bash
-yarn docs:build # 或者：npm run docs:build
+yarn docs:build # 或者：npm run docs:build # 全局安装可直接执行 vuepress build
 ```
 
 
