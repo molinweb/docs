@@ -1,0 +1,101 @@
+## 引入
+首先看这么一个例子
+```js
+setTimeout(function() {
+    console.log('timeout1');
+})
+new Promise(function(resolve) {
+    console.log('promise1');
+    for(var i = 0; i < 1000; i++) {
+        i == 99 && resolve();
+    }
+    console.log('promise2');
+}).then(function() {
+    console.log('then1');
+})
+console.log('global1');
+```
+上面一段代码跑下来，执行顺序是怎么样的？如果没有对`JavaScript`的`Event Loop`不了解，那么肯定一头雾水。
+
+OK，那我就先抛出结论，然后以例子与图示详细给大家演示事件循环机制。
+```
+promise1
+promise2
+global1
+then1
+timeout1
+```
+
+## 什么是 Event Loop
+事件循环机制从整体上的告诉了我们所写的JavaScript代码的执行顺序。
+
+::: tip
+因为**chrome**浏览器中新标准中的事件循环机制与**nodejs**类似，因此此处就整合**nodejs**一起来理解，其中会介绍到几个**nodejs**有，但是浏览器中没有的API，大家只需要了解就好，不一定非要知道她是如何使用。比如`process.nextTick` `setImmediate`
+:::
+
+- 我们知道JavaScript的一大特点就是`单线程`，而这个线程中拥有唯一的一个事件循环。
+- JavaScript代码的执行过程中，除了依靠函数调用栈来搞定函数的执行顺序外，还依靠任务队列`task queue`来搞定另外一些代码的执行。
+- 一个线程中，事件循环是唯一的，但是任务队列可以拥有多个。
+- 任务队列又分为`macro-task 宏任务`与`micro-task 微任务`。
+- setTimeout/Promise等我们称之为`任务源`。而进入任务队列的是他们指定的具体执行任务。
+- 来自不同任务源的任务会进入到不同的任务队列。其中setTimeout与setInterval是同源的。
+- 事件循环的顺序，决定了JavaScript代码的执行顺序。它从script(整体代码)开始第一次循环。之后全局上下文进入函数调用栈。直到调用栈清空(只剩全局)，然后执行所有的micro-task。当所有可执行的micro-task执行完毕之后。循环再次从macro-task开始，找到其中一个任务队列执行完毕，然后再执行所有的micro-task，这样一直循环下去。
+- 其中每一个任务的执行，无论是macro-task还是micro-task，都是借助函数调用栈来完成。
+
+macro-task | micro-task
+:-:|:-:
+script(整体代码)|process.nextTick
+setTimeout|Promise
+setInterval|Object.observe
+setImmediate|MutationObserver
+I/O|...
+UI rendering|...
+
+纯文字表述确实有点干涩，因此，这里我们通过上述的例子，来逐步理解事件循环的具体顺序。
+
+## 单次循环的执行过程
+
+还是上面的例子
+```js
+setTimeout(function() {
+    console.log('timeout1');
+})
+
+new Promise(function(resolve) {
+    console.log('promise1');
+    for(var i = 0; i < 1000; i++) {
+        i == 99 && resolve();
+    }
+    console.log('promise2');
+}).then(function() {
+    console.log('then1');
+})
+
+console.log('global1');
+```
+
+### 开始——宏任务队列
+
+首先，事件循环从宏任务队列开始，这个时候，宏任务队列中，只有一个`script 整体代码`任务。每一个任务的执行顺序，都依靠函数调用栈来搞定，而当遇到任务源时，则会先分发任务到对应的队列中去，所以，上面例子的第一步执行如下图所示。
+
+### 任务分发
+
+`script`任务执行时首先遇到了`setTimeout`。`setTimeout`为一个宏任务源，那么他的作用就是将任务分发到它对应的队列中。
+
+`script`执行时遇到`Promise`实例。`Promise`构造函数中的第一个参数，是在`new`的时候执行，因此不会进入任何其他的队列，而是直接在当前任务直接执行。
+**`.then`则会被分发到`micro-task`的`Promise`队列中去。**
+
+::: tip
+因此，构造函数执行时，里面的参数进入函数调用栈执行。for循环不会进入任何队列，因此代码会依次执行，所以这里的`promise1`和`promise2`会依次输出。
+:::
+
+`script`任务继续往下执行，最后只有一句输出了`globa1`，然后，全局任务执行完毕。
+
+### 执行所有的可执行的微任务
+
+第一个宏任务`script`执行完毕之后，就开始执行所有的可执行的微任务。这个时候，微任务中，只有`Promise`队列中的一个任务`then1`，因此直接执行就行了，执行结果输出`then1`，当然，他的执行，也是进入函数调用栈中执行的。
+
+### 循环结束
+当所有的`micro-tast`执行完毕之后，表示第一轮的循环就结束了。这个时候就得开始第二轮的循环。第二轮循环仍然从宏任务`macro-task`开始。
+
+这个时候，我们发现宏任务中，只有在`setTimeout`队列中还要一个`timeout1`的任务等待执行，因此就直接执行即可。

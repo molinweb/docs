@@ -43,7 +43,7 @@ module.exports = {
       '/Learning/': [
         ['vuepress', 'VuePress教程'],
         ['publish','观察者模式&&发布-订阅模式'],
-        ['bind','双向数据绑定']
+        ['bind','双向数据绑定'],
       ],
       '/Notes/': [
         ['publish', '发布宝贝'],
