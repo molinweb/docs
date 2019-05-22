@@ -3,7 +3,8 @@
 ## 思路
 移动端是多页面应用，无法使用`redux`进行全局数据管理，结合到之前封装的高阶组件[`titleWrapper`](/docs/React/titleWrapper.html)，在这里使用`react-context`进行伪`store`处理。
 
-由于每个页面进入之前都要通过`titleWrapper`渲染，所以在`titleWrapper`中注入相同的`react-context`就可以实现伪全局`store`
+- `titleWrapper`为每个页面注入相同的`context`
+- 在需要调用的页面或者子组件内直接通过`this.context`获取。
 
 ![](/docs/img/context2.jpg)
 
