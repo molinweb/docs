@@ -38,7 +38,8 @@ module.exports = {
         ['closeKeyBoard', 'QAP自动关闭键盘'],
         ['heightProvider', '动态组件自适应键盘高度'],
         ['listView', 'ListView长列表封装'],
-        ['cardHoc', '卡片弹窗HOC']
+        ['cardHoc', '卡片弹窗HOC'],
+        ['context', 'IOS高级功能控制']
       ],
       '/Learning/': [
         ['vuepress', 'VuePress教程'],
