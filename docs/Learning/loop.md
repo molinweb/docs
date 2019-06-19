@@ -34,12 +34,21 @@ timeout1
 :::
 
 - 我们知道JavaScript的一大特点就是`单线程`，而这个线程中拥有唯一的一个事件循环。
+
 - JavaScript代码的执行过程中，除了依靠函数调用栈来搞定函数的执行顺序外，还依靠任务队列`task queue`来搞定另外一些代码的执行。
+
+![](/docs/img/loop/fifo.jpg)
+
 - 一个线程中，事件循环是唯一的，但是任务队列可以拥有多个。
+
 - 任务队列又分为`macro-task 宏任务`与`micro-task 微任务`。
+
 - setTimeout/Promise等我们称之为`任务源`。而进入任务队列的是他们指定的具体执行任务。
+
 - 来自不同任务源的任务会进入到不同的任务队列。其中setTimeout与setInterval是同源的。
+
 - 事件循环的顺序，决定了JavaScript代码的执行顺序。它从script(整体代码)开始第一次循环。之后全局上下文进入函数调用栈。直到调用栈清空(只剩全局)，然后执行所有的micro-task。当所有可执行的micro-task执行完毕之后。循环再次从macro-task开始，找到其中一个任务队列执行完毕，然后再执行所有的micro-task，这样一直循环下去。
+
 - 其中每一个任务的执行，无论是macro-task还是micro-task，都是借助函数调用栈来完成。
 
 macro-task | micro-task
@@ -78,24 +87,285 @@ console.log('global1');
 
 首先，事件循环从宏任务队列开始，这个时候，宏任务队列中，只有一个`script 整体代码`任务。每一个任务的执行顺序，都依靠函数调用栈来搞定，而当遇到任务源时，则会先分发任务到对应的队列中去，所以，上面例子的第一步执行如下图所示。
 
+![](/docs/img/loop/1.png)
+> 首先script任务开始执行，全局上下文`global`入栈
+
 ### 任务分发
 
-`script`任务执行时首先遇到了`setTimeout`。`setTimeout`为一个宏任务源，那么他的作用就是将任务分发到它对应的队列中。
+- `script`任务执行时首先遇到了`setTimeout`。`setTimeout`为一个宏任务源，那么他的作用就是将任务分发到它对应的队列中。
+```js
+setTimeout(function() {
+    console.log('timeout1');
+})
+```
+![](/docs/img/loop/2.png)
+> 宏任务`timeout1`进入`setTimeout`队列
+- `script`执行时遇到`Promise`实例。`Promise`构造函数中的第一个参数，是在`new`的时候执行，因此不会进入任何其他的队列，而是直接在当前任务直接执行。
+![](/docs/img/loop/3.png)
+> `promise1`入栈执行，这时`promise1`被最先输出
 
-`script`执行时遇到`Promise`实例。`Promise`构造函数中的第一个参数，是在`new`的时候执行，因此不会进入任何其他的队列，而是直接在当前任务直接执行。
-**`.then`则会被分发到`micro-task`的`Promise`队列中去。**
-
+![](/docs/img/loop/4.png)
+> `resolve`在`for`循环中入栈执行
 ::: tip
-因此，构造函数执行时，里面的参数进入函数调用栈执行。for循环不会进入任何队列，因此代码会依次执行，所以这里的`promise1`和`promise2`会依次输出。
+构造函数执行时，里面的参数进入函数调用栈执行。for循环不会进入任何队列，因此代码会依次执行，所以这里的`promise1`和`promise2`会依次输出。
 :::
+- **`.then`则会被分发到`micro-task`的`Promise`队列中去。**
 
-`script`任务继续往下执行，最后只有一句输出了`globa1`，然后，全局任务执行完毕。
+![](/docs/img/loop/5.png)
+> 构造函数执行完毕的过程中，`resolve`执行完毕出栈，`promise2`输出，`promise1`页出栈，`then`执行时，`Promise`任务`then1`进入对应队列
+
+
+- `script`任务继续往下执行，最后只有一句输出了`globa1`，然后，全局任务执行完毕。
 
 ### 执行所有的可执行的微任务
 
 第一个宏任务`script`执行完毕之后，就开始执行所有的可执行的微任务。这个时候，微任务中，只有`Promise`队列中的一个任务`then1`，因此直接执行就行了，执行结果输出`then1`，当然，他的执行，也是进入函数调用栈中执行的。
+![](/docs/img/loop/6.png)
+> 执行所有的微任务
 
-### 循环结束
-当所有的`micro-tast`执行完毕之后，表示第一轮的循环就结束了。这个时候就得开始第二轮的循环。第二轮循环仍然从宏任务`macro-task`开始。
+### 首轮循环结束
+当所有的`micro-tast`执行完毕之后，表示第一轮的循环就结束了。这个时候就得开始第二轮的循环。
+### 继续循环
+- 第二轮循环仍然从宏任务`macro-task`开始。
+![](/docs/img/loop/7.png)
+> 微任务被清空
+- 我们发现宏任务中，只有在`setTimeout`队列中还要一个`timeout1`的任务等待执行，因此就直接执行即可。
+![](/docs/img/loop/8.png)
+> `timeout1`入栈执行
 
-这个时候，我们发现宏任务中，只有在`setTimeout`队列中还要一个`timeout1`的任务等待执行，因此就直接执行即可。
+这个时候宏任务队列与微任务队列中都没有任务了，所以代码就不会再输出其他东西了。
+
+## 复杂的例子
+上个例子比较简答，涉及到的队列任务并不多，
+因此读懂了它还不能全面的了解到事件循环机制的全貌。
+所以我们整理一个复杂一点的例子解析一番，相信读懂之后，事件循环这个问题，也就不是什么难事了。
+```js
+// demo02
+console.log('golb1');
+
+setTimeout(function() {
+    console.log('timeout1');
+    process.nextTick(function() {
+        console.log('timeout1_nextTick');
+    })
+    new Promise(function(resolve) {
+        console.log('timeout1_promise');
+        resolve();
+    }).then(function() {
+        console.log('timeout1_then')
+    })
+})
+
+setImmediate(function() {
+    console.log('immediate1');
+    process.nextTick(function() {
+        console.log('immediate1_nextTick');
+    })
+    new Promise(function(resolve) {
+        console.log('immediate1_promise');
+        resolve();
+    }).then(function() {
+        console.log('immediate1_then')
+    })
+})
+
+process.nextTick(function() {
+    console.log('glob1_nextTick');
+})
+new Promise(function(resolve) {
+    console.log('glob1_promise');
+    resolve();
+}).then(function() {
+    console.log('glob1_then')
+})
+
+setTimeout(function() {
+    console.log('timeout2');
+    process.nextTick(function() {
+        console.log('timeout2_nextTick');
+    })
+    new Promise(function(resolve) {
+        console.log('timeout2_promise');
+        resolve();
+    }).then(function() {
+        console.log('timeout2_then')
+    })
+})
+
+process.nextTick(function() {
+    console.log('glob2_nextTick');
+})
+new Promise(function(resolve) {
+    console.log('glob2_promise');
+    resolve();
+}).then(function() {
+    console.log('glob2_then')
+})
+
+setImmediate(function() {
+    console.log('immediate2');
+    process.nextTick(function() {
+        console.log('immediate2_nextTick');
+    })
+    new Promise(function(resolve) {
+        console.log('immediate2_promise');
+        resolve();
+    }).then(function() {
+        console.log('immediate2_then')
+    })
+})
+
+```
+这个例子看上去有点复杂，乱七八糟的代码一大堆，不过不用担心，我们一步一步来分析一下。
+### 第一步
+宏任务`script`首先执行。全局入栈。`glob1`输出。
+![](/docs/img/loop/hard/1.png)
+> script首先执行
+### 第二步
+执行过程遇到`setTimeout`。`setTimeout`作为任务分发器，将任务分发到对应的宏任务队列中。
+```js
+setTimeout(function() {
+    console.log('timeout1');
+    process.nextTick(function() {
+        console.log('timeout1_nextTick');
+    })
+    new Promise(function(resolve) {
+        console.log('timeout1_promise');
+        resolve();
+    }).then(function() {
+        console.log('timeout1_then')
+    })
+})
+```
+![](/docs/img/loop/hard/2.png)
+> `timeout1`进入对应队列
+###第三步
+执行过程遇到`setImmediate`。`setImmediate`也是一个宏任务分发器，
+将任务分发到对应的任务队列中。
+::: tip
+`setImmediate`的任务队列会在`setTimeout`队列的后面执行，即所有的`setTimeout`任务执行完毕后，才会开始执行`setImmediate`的任务队列
+:::
+```js
+setImmediate(function() {
+    console.log('immediate1');
+    process.nextTick(function() {
+        console.log('immediate1_nextTick');
+    })
+    new Promise(function(resolve) {
+        console.log('immediate1_promise');
+        resolve();
+    }).then(function() {
+        console.log('immediate1_then')
+    })
+})
+```
+![](/docs/img/loop/hard/3.png)
+> 进入`setImmediate`队列
+### 第四步
+执行遇到`nextTick`，`process.nextTick`是一个微任务分发器，它会将任务分发到对应的微任务队列中去。
+```js
+process.nextTick(function() {
+    console.log('glob1_nextTick');
+})
+```
+![](/docs/img/loop/hard/4.png)
+> nextTick
+### 第五步
+执行遇到`Promise`。`Promise`的`then`方法会将任务分发到对应的微任务队列中，但是它构造函数中的方法会直接执行。
+因此，`glob1_promise`会第二个输出。
+```js
+new Promise(function(resolve) {
+    console.log('glob1_promise');
+    resolve();
+}).then(function() {
+    console.log('glob1_then')
+})
+
+```
+![](/docs/img/loop/hard/5.png)
+> 先是函数调用栈的变化
+
+![](/docs/img/loop/hard/6.png)
+
+> 然后glob1_then任务进入队列
+###第六步 
+执行遇到第二个`setTimeout`。
+```js
+setTimeout(function() {
+    console.log('timeout2');
+    process.nextTick(function() {
+        console.log('timeout2_nextTick');
+    })
+    new Promise(function(resolve) {
+        console.log('timeout2_promise');
+        resolve();
+    }).then(function() {
+        console.log('timeout2_then')
+    })
+})
+```
+![](/docs/img/loop/hard/7.png)
+> `timeout2`进入对应队列
+### 第七步
+先后遇到`nextTick`与`Promise`
+```js
+process.nextTick(function() {
+    console.log('glob2_nextTick');
+})
+new Promise(function(resolve) {
+    console.log('glob2_promise');
+    resolve();
+}).then(function() {
+    console.log('glob2_then')
+})
+```
+![](/docs/img/loop/hard/8.png)
+> `glob2_nextTick`与`Promise`任务分别进入各自的队列
+###第八步
+再次遇到`setImmediate`
+```js
+setImmediate(function() {
+    console.log('immediate2');
+    process.nextTick(function() {
+        console.log('immediate2_nextTick');
+    })
+    new Promise(function(resolve) {
+        console.log('immediate2_promise');
+        resolve();
+    }).then(function() {
+        console.log('immediate2_then')
+    })
+})
+```
+![](/docs/img/loop/hard/9.png)
+> nextTick
+
+这个时候，`script`中的代码就执行完毕了，
+执行过程中，遇到不同的任务分发器，就将任务分发到各自对应的队列中去。接下来，将会执行所有的微任务队列中的任务。
+
+**其中，`nextTick`队列会比`Promie`先执行。`nextTick`中的可执行任务执行完毕之后，才会开始执行`Promise`队列中的任务。**
+
+当所有可执行的微任务执行完毕之后，这一轮循环就表示结束了。下一轮循环继续从宏任务队列开始执行。
+
+这个时候，script已经执行完毕，所以就从setTimeout队列开始执行。
+![](/docs/img/loop/hard/10.png)
+> 第二轮循环初始状态
+
+`setTimeout`任务的执行，也依然是借助函数调用栈来完成，并且遇到任务分发器的时候也会将任务分发到对应的队列中去。
+
+::: warning
+这里的执行顺序，或者执行的优先级在不同的场景里由于实现的不同会导致不同的结果，包括node的不同版本，不同浏览器等都有不同的结果。
+:::
+- **在`node`环境中,当`setTimeout`中所有的任务执行完毕之后，才会再次开始执行微任务队列。并且清空所有的可执行微任务。**
+
+- **在`浏览器`标准环境中(比如说谷歌`webkit`内核)，每当`setTimeout`队列中的`一个`任务执行完成，便会清空所有的可执行微任务**
+
+`setTiemout`队列产生的微任务执行完毕之后，循环则回过头来开始执行`setImmediate`队列。仍然是先将`setImmediate`队列中的任务执行完毕，再执行所产生的微任务。
+
+当`setImmediate`队列执行产生的微任务全部执行之后，第二轮循环也就结束了。
+
+::: tip
+当我们在执行`setTimeout`任务中遇到`setTimeout`时，
+它仍然会将对应的任务分发到`setTimeout`队列中去，
+但是该任务就得等到下一轮事件循环执行了。例子中没有涉及到这么复杂的嵌套，可以动手添加或者修改他们的位置来感受一下循环的变化。
+:::

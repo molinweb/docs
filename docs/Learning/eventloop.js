@@ -3,6 +3,9 @@ console.log('golb1');
 
 setTimeout(function() {
   console.log('timeout1');
+  setTimeout(()=>{
+    console.log('timeout3');
+  })
   process.nextTick(function() {
     console.log('timeout1_nextTick');
     process.nextTick(function() {
