@@ -14,7 +14,7 @@ const store = {
  *  next: 上一个middleware的处理方法，若无上一个middleware，参数为store的dispatch方法
  *  action: 最终的action
  */
-const  loggerMidware =  {dispatch,getStore} => next => action => {
+const  loggerMidware =  ({dispatch,getStore}) => next => action => {
       console.log('strat')
       let result = next(action);
       console.log('end')
@@ -132,5 +132,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     itemUpdate: (...args) => dispatch(actions.itemUpdate(...args)),
   }
 };
-这里先调用  actions.itemDetailGet(...args) 该方法执行后返回一个函数，该函数可以接收一个{dispatch,getStore对象}，
-将该对象传入thunkMiddleware，thunkMiddleware判断入参为function，自动为其传入参入并执行该函数
+//这里先调用  actions.itemDetailGet(...args) 该方法执行后返回一个函数，该函数可以接收一个{dispatch,getStore对象}，
+//将该对象传入thunkMiddleware，thunkMiddleware判断入参为function，自动为其传入参入并执行该函数
