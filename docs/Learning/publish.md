@@ -63,9 +63,7 @@ subject.notify();
  
  订阅者把自己想订阅的**消息**以及**处理程序**注册到调度中心，当发布者发布消息到调度中心，由调度中心统一调度订阅者注册到调度中心的处理程序。
  
- <div align=center>
- <img src="/docs/img/observer/event.jpg" width = "900" />
- </div>
+ <Picture src="observer/event.jpg" name="发布订阅模式"/>
  
 ### 简单实现
 基于**发布-订阅模式**的`Event Bus`

@@ -71,7 +71,7 @@ dog
 - 利用 `Proxy` 或 `Object.defineProperty` 生成的 `Observer` 针对**对象/对象的属性**进行『劫持』，在属性发生变化后通知订阅者。
 - 解析器 `Compile` 解析模板中的 `Directive` (指令)，收集指令所依赖的方法和数据，等待数据变化然后进行渲染。
 - `Watcher` 属于 `Observer` 和 `Compile` 桥梁，它将接收到的 `Observer` 产生的数据变化，并根据`Compile`提供的指令进行视图渲染，使得数据变化促使视图变化。
-![](/docs/img/observer/bind.jpg)
+ <Picture src="observer/bind.jpg"/>
 ::: tip
 可以看到，虽然运用了数据劫持，但是依然离不开**发布订阅**的模式，在上文做了 `Event Bus` 的实现，就是因为不管在学习一些框架的原理还是一些流行库（例如Redux、Vuex），基本上都离不开发布订阅模式，而`Event`模块则是此模式的经典实现。
 :::

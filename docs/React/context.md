@@ -6,7 +6,7 @@
 - `titleWrapper`为每个页面注入相同的`context`
 - 在需要调用的页面或者子组件内直接通过`this.context`获取。
 
-![](/docs/img/context2.jpg)
+<Picture src="context2.jpg"/>
 
 ## 什么是 Context
 在一个典型的 `React` 应用中，数据是通过 `props` 属性自上而下（由父及子）进行传递的，

@@ -440,8 +440,8 @@ yarn # 或者 npm i
 ### 现有问题
 我们使用上述的`deploy.sh`部署到`git`后，`vuepress`是把我们项目打包后的静态资源文件`push`到`git`分支上。
 上传后的项目大概是这个样子：
-![项目预览](/docs/img/vuepress/vuepress1.png)
-![项目预览](/docs/img/vuepress/vuepress2.png)
+ <Picture src="vuepress/vuepress1.png"/>
+  <Picture src="vuepress/vuepress2.png"/>
 
 这么做就有一个明显的弊端。如果这个项目不是个人博客，而是需要多人维护的项目文档，那么其他人想要修改这个文档是没办法把这些html文件`clone`到本地进行修改的。
 
@@ -457,7 +457,7 @@ yarn # 或者 npm i
 #### 重命名
 使用`xxx.github.io`作为`github Pages`首页是无法选择分支的，`git`会自动将``xxx.github.io``下的`master`分支当做静态资源。而我们需要的是`master`分支存放我们的项目即`markdown`，另外的分支来存放编译好的`html`
 - 更改我们的资源库名为`docs`，新建分支`gh pages`，然后在设置中将`github Pages`分支切换到`gh pages`
-![](/docs/img/vuepress/vuepress3.png)
+ <Picture src="vuepress/vuepress3.png"/>
 #### 设置`base`
 - 由于文档地址已经更换，这里需要将`config.js`里的`base`设置为`/docs/`
 ```javascript
@@ -515,23 +515,27 @@ cd -
 ### Travis CI配置
 #### 监听资源库
 - 使用`github`账号登录[Travis CI](https://www.travis-ci.org/)，选择需要自动部署的资源库
-![](/docs/img/vuepress/vuepress4.png)
+ <Picture src="vuepress/vuepress4.png"/>
 #### Access token
 - 首先在`github`的 `setting -> developer setting -> personal access token`一栏点击`generate new token`， 这下面的选项全选，然后就会生成一个`token`，复制这个`token`。
 
 - 进入`travis`后台，在环境变量`Environment Variables`里设置键值对
-![](/docs/img/vuepress/vuepress5.png)
+ <Picture src="vuepress/vuepress5.png"/>
 ### 测试
 将我们的项目`push`到线上，观察控制台
 
 - `travis`已经监听到我们资源库的变化，开始运行虚拟机
-![](/docs/img/vuepress/vuepress6.png)
+ <Picture src="vuepress/vuepress6.png"/>
+ 
 - 执行`deploy.sh`中的命令
-![](/docs/img/vuepress/vuepress7.png)
+ <Picture src="vuepress/vuepress7.png"/>
+ 
 - 任务执行成功，将`build`后的文件推送到`gh pages`分支
-![](/docs/img/vuepress/vuepress8.png)
+ <Picture src="vuepress/vuepress8.png"/>
+ 
 - 面板显示为`passed`
-![](/docs/img/vuepress/vuepress9.png)
+
+ <Picture src="vuepress/vuepress9.png"/>
 
 打开`xxx.github.io/docs/`已经可以正常访问了。
 
@@ -548,7 +552,8 @@ cd -
 ssh-keygen # 生成密钥对
 ```
 输入上面的指令以后一路回车即可，你会发现在用户根目录下多了`.ssh`目录，进去看一下`cd ~/.ssh`，里面有这3个文件
-![](/docs/img/vuepress/pubkey.png)
+ <Picture src="vuepress/pubkey.png"/>
+ 
 把`id_rsa.pub`里的内容，手动复制到服务器的`~/.ssh/authorized_keys`(如没有可自行创建)中去即可
 
 ::: tip 提示
@@ -558,7 +563,8 @@ ssh-keygen # 生成密钥对
 ```bash
 ssh ${username}@${服务器IP}
 ```
-![](/docs/img/vuepress/login.png)
+ <Picture src="vuepress/login.png"/>
+ 
 ### 加密
 我们要部署到远程服务器，那么势必需要让 Travis 登录到远程服务，那么登录密码怎么处理才能保证安全？这是首先要解决的问题，明文肯定是不行的。
 #### Travis命令行工具
@@ -597,7 +603,7 @@ Successfully logged in as demo!
 travis encrypt-file ~/.ssh/id_rsa --add
 ```
 这时在travis的环境变量中会多出两个
-![](/docs/img/vuepress/en.png)
+ <Picture src="vuepress/en.png"/>
 
 去看一下当前目录下的 .travis.yml，会多出几行
 ```yaml
@@ -652,4 +658,4 @@ after_success:
 ```
 ### 部署测试
 提交代码到远程仓库，在Travis查看log，显示成功上传
-![](/docs/img/vuepress/success.png)
+ <Picture src="vuepress/success.png"/>

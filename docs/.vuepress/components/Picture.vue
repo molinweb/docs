@@ -67,6 +67,7 @@
 }
 .pic-container p{
   color: #999;
+  text-align: center;
 }
   .img-wrapper{
     position: fixed;
