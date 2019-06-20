@@ -3,17 +3,16 @@ sudo: required
 node_js:
 - lts/*
 before_install:
- - openssl aes-256-cbc -K $encrypted_6dc88f1910e2_key -iv $encrypted_6dc88f1910e2_iv
-   -in id_rsa.enc -out ~/.ssh/id_rsa -d
- - chmod 600 ~/.ssh/id_rsa
+   - openssl aes-256-cbc -K $encrypted_4ac2b74bed6c_key -iv $encrypted_4ac2b74bed6c_iv
+    -in id_rsa.enc -out ~\/.ssh/id_rsa -d
 addons:
-  ssh_known_hosts: 62.234.211.24
+  ssh_known_hosts: 49.234.12.91
 cache:
   directories:
   - node_modules
 script:
 - "./deploy.sh"
 branch: master
-
 after_success:
-- scp -o StrictHostKeyChecking=no -r docs/.vuepress/dist/* ubuntu@62.234.211.24:/home/ubuntu/nginx-server/docs
+- scp -o StrictHostKeyChecking=no -r docs/.vuepress/dist/* ubuntu@49.234.12.91:/home/ubuntu/nginx-server/docs
+

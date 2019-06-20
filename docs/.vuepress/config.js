@@ -1,6 +1,6 @@
 module.exports = {
-  title: '7revor',
-  description: '可爱又迷人的反派角色',
+  title: '漠林',
+  description: '123',
   base: '/docs/',
   head: [
     ['link', {
