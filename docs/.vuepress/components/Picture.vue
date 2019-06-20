@@ -30,8 +30,7 @@
         const destory = () =>{
           wrapper.removeEventListener('click',clickListener);
           window.removeEventListener('scroll',scrollListener)
-          wrapper.style.backgroundColor = 'rgba(0,0,0,0)';
-          img.style.opacity = '0';
+          wrapper.style.opacity = '0';
           setTimeout(()=>{
             app.removeChild(wrapper);
           },500)
@@ -45,8 +44,7 @@
         wrapper.setAttribute('class','img-wrapper');
         app.appendChild(wrapper);
         setTimeout(()=>{
-          wrapper.style.backgroundColor = 'rgba(0,0,0,0.5)';
-          img.style.opacity = '1';
+          wrapper.style.opacity = '1';
         })
       }
     }
@@ -79,18 +77,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color .5s;
-    -moz-transition: background-color .5s;	/* Firefox 4 */
-    -webkit-transition: background-color .5s;	/* Safari 和 Chrome */
-    -o-transition: background-color .5s;	/* Opera */
-  }
-  .img-content{
-    max-width: 80%;
-    max-height: 100%;
+    background-color: rgba(0,0,0,0.5);
     opacity: 0;
     transition: opacity .5s;
     -moz-transition: opacity .5s;	/* Firefox 4 */
     -webkit-transition: opacity .5s;	/* Safari 和 Chrome */
     -o-transition: opacity .5s;	/* Opera */
+  }
+  .img-content{
+    max-width: 80%;
+    max-height: 80%;
+    height: auto;
+    width: auto;
   }
 </style>
