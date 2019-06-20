@@ -139,83 +139,9 @@ setTimeout(function() {
 上个例子比较简答，涉及到的队列任务并不多，
 因此读懂了它还不能全面的了解到事件循环机制的全貌。
 所以我们整理一个复杂一点的例子解析一番，相信读懂之后，事件循环这个问题，也就不是什么难事了。
-```js
-// demo02
-console.log('golb1');
 
-setTimeout(function() {
-    console.log('timeout1');
-    process.nextTick(function() {
-        console.log('timeout1_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('timeout1_promise');
-        resolve();
-    }).then(function() {
-        console.log('timeout1_then')
-    })
-})
+<<< @/docs/Learning/test/eventloop.js
 
-setImmediate(function() {
-    console.log('immediate1');
-    process.nextTick(function() {
-        console.log('immediate1_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('immediate1_promise');
-        resolve();
-    }).then(function() {
-        console.log('immediate1_then')
-    })
-})
-
-process.nextTick(function() {
-    console.log('glob1_nextTick');
-})
-new Promise(function(resolve) {
-    console.log('glob1_promise');
-    resolve();
-}).then(function() {
-    console.log('glob1_then')
-})
-
-setTimeout(function() {
-    console.log('timeout2');
-    process.nextTick(function() {
-        console.log('timeout2_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('timeout2_promise');
-        resolve();
-    }).then(function() {
-        console.log('timeout2_then')
-    })
-})
-
-process.nextTick(function() {
-    console.log('glob2_nextTick');
-})
-new Promise(function(resolve) {
-    console.log('glob2_promise');
-    resolve();
-}).then(function() {
-    console.log('glob2_then')
-})
-
-setImmediate(function() {
-    console.log('immediate2');
-    process.nextTick(function() {
-        console.log('immediate2_nextTick');
-    })
-    new Promise(function(resolve) {
-        console.log('immediate2_promise');
-        resolve();
-    }).then(function() {
-        console.log('immediate2_then')
-    })
-})
-
-```
 这个例子看上去有点复杂，乱七八糟的代码一大堆，不过不用担心，我们一步一步来分析一下。
 ### 第一步
 宏任务`script`首先执行。全局入栈。`glob1`输出。

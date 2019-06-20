@@ -4,10 +4,8 @@
 
 观察者模式里面，发布者 `Subject` ，或者叫 `Observable` ，需要在内部维护一套观察者`Observer`的集合，这些 `Observer` 实现相同的接口，当被观察者数据发生变化时，统一为观察者集合调用方法。
 
-<div align=center>
-<img src="/docs/img/observer/observer.jpg" width = "600" />
-</div>
 
+<Picture src="observer/observer.jpg" name="观察者模式"/>
 
 ### 简单实现
 #### 发布者
