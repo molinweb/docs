@@ -28,11 +28,11 @@
  must |是否为必选属性
  multi |是否可以多选
  child_template |子属性的模板
- prop_values | [子属性列表](/Notes/goodsProps.html#子属性列表)
+ prop_values | [子属性列表](/Java/goodsProps.html#子属性列表)
  is_material |是否是材质属性项
- material_do |[材质属性信息](/Notes/goodsProps.html#材质属性信息)
+ material_do |[材质属性信息](/Java/goodsProps.html#材质属性信息)
 is_taosir|是否度量衡属性项
-taosir_do|[度量衡属性信息](/Notes/goodsProps.html#度量衡属性信息)
+taosir_do|[度量衡属性信息](/Java/goodsProps.html#度量衡属性信息)
         
 ### 子属性列表
 <table>

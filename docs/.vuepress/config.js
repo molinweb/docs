@@ -1,6 +1,6 @@
 module.exports = {
   title: '漠林',
-  description: '123',
+  description: ' 耕耘漠林里，最美柒月天。风雨随缘至，草木自盎然。',
   base: '/docs/',
   head: [
     ['link', {
@@ -20,8 +20,8 @@ module.exports = {
       text: 'React',
       link: '/React/'
     }, {
-      text: 'Documents',
-      link: '/Notes/'
+      text: 'Java',
+      link: '/Java/'
     }, {
       text: 'Learning',
       link: '/Learning/'
@@ -47,8 +47,8 @@ module.exports = {
         ['bind','双向数据绑定'],
         ['loop','事件循环'],
       ],
-      '/Notes/': [
-        ['publish', '发布宝贝'],
+      '/Java/': [
+        ['Lombok', 'Lombok'],
         ['goodsProps', '宝贝属性详解'],
       ],
       /**

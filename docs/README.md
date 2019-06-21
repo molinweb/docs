@@ -4,11 +4,11 @@ heroImage:
 actionText: Go →
 actionLink: /React/
 features:
-- title: 产品文档
-  details: 日常工作中的笔记整理以及项目文档。
-- title: 学习笔记
-  details: 工作学习过程中遇到的问题以及思考。
-- title: More
-  details: 期待更多。
-footer: MIT Licensed | Copyright © 2019-present 7revor
+- title: 技术知识点
+  details: 自我使用或喜欢的技术问题和技巧。
+- title: 个人杂谈
+  details: 有诗意有文章。
+- title: 转载
+  details: 转载一些大神的文章已被自己忘了地址或别人删帖了。
+footer: MIT Licensed | Copyright © 2019-present Moin
 --- 
